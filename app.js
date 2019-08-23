@@ -5,7 +5,7 @@ const app = express();
 // read tour data
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
-// Defining routes
+// Defining routes. Get route is up first
 app.get("/api/v1/tours", (req, res) => {
     res.status(200).json({
         status: 'success',
@@ -14,6 +14,11 @@ app.get("/api/v1/tours", (req, res) => {
             tours
         }
     });
+})
+
+// Add a new tour to our data
+app.post("api/v1/tours", () =>{
+
 })
 
 const port = 3000;
