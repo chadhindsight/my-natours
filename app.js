@@ -2,6 +2,8 @@ const fs = require('fs')
 const express = require('express');
 
 const app = express();
+app.use(express.json());
+
 // read tour data
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
@@ -17,8 +19,8 @@ app.get("/api/v1/tours", (req, res) => {
 })
 
 // Add a new tour to our data
-app.post("api/v1/tours", () =>{
-
+app.post("api/v1/tours", (req, res) =>{
+    req
 })
 
 const port = 3000;
