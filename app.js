@@ -7,8 +7,7 @@ app.use(express.json());
 // read tour data
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
-// Defining routes. Get route is up first
-app.get("/api/v1/tours", (req, res) => {
+const getAllTours = (req, res) => {
     res.status(200).json({
         status: 'success',
         results: tours.length,
@@ -16,7 +15,9 @@ app.get("/api/v1/tours", (req, res) => {
             tours
         }
     });
-})
+}
+// Defining routes. Get route is up first
+app.get("/api/v1/tours", getAllTours);
 
 app.get("/api/v1/tours/:id", (req, res) => {
     console.log(req.params);
