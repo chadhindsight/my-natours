@@ -18,6 +18,27 @@ app.get("/api/v1/tours", (req, res) => {
     });
 })
 
+app.get("/api/v1/tours/:id", (req, res) => {
+    console.log(req.params);
+    // Multiply a string that has a number inside of it to make it a Number datatype;
+    const id = req.params.id * 1;
+    const tour = tours.find(el.id === id);
+
+    if(!tour) {
+        return res.status(404).json({
+            status: 'fail',
+            message: 'invalid id!'
+        })
+    }
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            tour
+        }
+       
+    });
+})
 // Add a new tour to our data
 app.post("/api/v1/tours", (req, res) =>{
     const newId = tours[tours.length - 1].id + 1;
@@ -32,6 +53,19 @@ app.post("/api/v1/tours", (req, res) =>{
                 tour: newTour
             }
         })
+    })
+})
+app.delete('/api/v1/tours/:id', (req, res) => {
+    if (req.params.id * 1 > tours.length) {
+        return res.status(404).json({
+            status: 'fail',
+            message: 'invalid id!'
+        })
+    }
+
+    res.status(200).json({
+        status: 'success',
+        data: null
     })
 })
 
