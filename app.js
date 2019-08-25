@@ -4,6 +4,11 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
+app.use((req, res, next) =>{
+    console.log('Hello from the middleware');
+    // next() signals for your middleware to move
+    next();
+})
 // read tour data
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
@@ -78,7 +83,7 @@ const deleteTour = (req, res) => {
         data: null
     })
 }
-// Old way
+// Old way, but still valid
 // app.get("/api/v1/tours", getAllTours);
 // app.get("/api/v1/tours/:id", getTour)
 // app.post("/api/v1/tours", createTour);
