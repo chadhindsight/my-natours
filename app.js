@@ -78,6 +78,7 @@ const deleteTour = (req, res) => {
         data: null
     })
 }
+// Old way
 // app.get("/api/v1/tours", getAllTours);
 // app.get("/api/v1/tours/:id", getTour)
 // app.post("/api/v1/tours", createTour);
