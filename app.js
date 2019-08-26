@@ -1,6 +1,6 @@
 const fs = require('fs')
 const express = require('express');
-
+const morgan = require('morgan');
 const app = express();
 app.use(express.json());
 
@@ -17,7 +17,7 @@ app.use((req, res, next) =>{
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
 const getAllTours = (req, res) => {
-    console.log(requestTime);
+    console.log(req.requestTime);
     res.status(200).json({
         requestedAt: req.requestTime,
         status: 'success',
