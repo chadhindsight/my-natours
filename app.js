@@ -2,11 +2,15 @@ const fs = require('fs')
 const express = require('express');
 const morgan = require('morgan');
 const app = express();
+
+// MIDDLEWARES SECTION
+app.use(morgan('dev'));
+
 app.use(express.json());
 
 app.use((req, res, next) =>{
     console.log('Hello from the middleware');
-    // next() signals for your middleware to move
+    // next() signals for your middleware to move on
     next();
 })
 app.use((req, res, next) =>{
@@ -16,6 +20,7 @@ app.use((req, res, next) =>{
 // read tour data
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
+// ROUTE HANDLERS SECTION
 const getAllTours = (req, res) => {
     console.log(req.requestTime);
     res.status(200).json({
@@ -49,7 +54,7 @@ const getTour = (req, res) => {
 
     });
 }
-// Defining routes. Get route is up first
+// Defining routes. The get route is up first
 
 // Add a new tour to our data
 const createTour = (req, res) => {
