@@ -9,11 +9,17 @@ app.use((req, res, next) =>{
     // next() signals for your middleware to move
     next();
 })
+app.use((req, res, next) =>{
+    req.requestTime = new Date().toISOString;
+    next();
+})
 // read tour data
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
 const getAllTours = (req, res) => {
+    console.log(requestTime);
     res.status(200).json({
+        requestedAt: req.requestTime,
         status: 'success',
         results: tours.length,
         data: {
