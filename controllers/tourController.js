@@ -4,6 +4,16 @@ const tours = JSON.parse(
     fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 );
 
+exports.checkID = (req, res, next, val) => {
+    if (req.params.id * 1 > tours.length) {
+        return res.status(404).json({
+            status: 'fail',
+            message: 'invalid id!'
+        });
+    }
+    next();
+}
+
 exports.getAllTours = (req, res) => {
     console.log(req.requestTime);
     
@@ -21,14 +31,7 @@ exports.getTour = (req, res) => {
     console.log(req.params);
     // Multiply a string that has a number inside of it to make it a Number datatype;
     const id = req.params.id * 1;
-    const tour = tours.find(el.id === id);
-
-    if (!tour) {
-        return res.status(404).json({
-            status: 'fail',
-            message: 'invalid id!'
-        })
-    }
+    const tour = tours.find(el => el.id === id);
 
     res.status(200).json({
         status: 'success',
@@ -56,21 +59,15 @@ exports.createTour = (req, res) => {
     })
 }
 exports.updateTour = (req, res) => {
-    if (req.params.id * 1 > tours.length) {
-        return res.status(404).json({
-            status: 'fail',
-            message: 'invalid id!'
-        })
-    }
+   res.status(200).json({
+       status: 'success booty',
+       data: {
+           tour: "<Updated tour here...>"
+       }
+   })
 }
 
 exports.deleteTour = (req, res) => {
-    if (req.params.id * 1 > tours.length) {
-        return res.status(404).json({
-            status: 'fail',
-            message: 'invalid id!'
-        })
-    }
 
     res.status(200).json({
         status: 'success',
