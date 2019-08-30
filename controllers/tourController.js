@@ -6,7 +6,7 @@ const tours = JSON.parse(
 
 exports.checkID = (req, res, next, val) => {
     console.log(`Tour id is: ${val}`);
-
+    // multiply by one to convert number as a string to a Number datatype
     if (req.params.id * 1 > tours.length) {
         return res.status(404).json({
             status: 'fail',
@@ -14,6 +14,17 @@ exports.checkID = (req, res, next, val) => {
         });
     }
     next();
+}
+
+// CheckBody middleware checks for name and price properties in the body
+exports.checkBody = (req, res, next) => {
+    if (!req.body.name || !req.body.price) {
+        return res.status(404).json({
+            status: 'fail',
+            message: 'name or price properties not found!'
+        });
+    }
+   next();
 }
 
 exports.getAllTours = (req, res) => {
