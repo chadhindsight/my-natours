@@ -5,7 +5,7 @@ const userRouter = require('./routes/userRoutes');
 
 const app = express();
 
-// MIDDLEWARES SECTION
+// MIDDLEWARES SECTION!
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.static(`${_dirname}/public`));
