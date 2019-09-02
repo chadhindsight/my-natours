@@ -4,7 +4,8 @@
   "description": "node express and mongo practice",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start:dev": "nodemon server.js",
+    "start:prod": "NODE_ENV=production nodemon server.js"
   },
   "keywords": [
     "yeerrr"
@@ -12,6 +13,7 @@
   "author": "Chad Hinds",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^8.1.0",
     "express": "^4.17.1",
     "morgan": "^1.9.1"
   }
