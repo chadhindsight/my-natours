@@ -6,6 +6,9 @@ const app = require('./app');
 // Allows you to specify the file location to configure you environment varialbe
 dotenv.config({path: './config.env'});
 
+const DB = process.env.DATABASE.replace('<password>', process.env.DATABASE_PW);
+
+mongoose.connect();
 
 const port =  process.env.PORT || 3000;
 app.listen(port, () => {
