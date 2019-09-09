@@ -20,7 +20,7 @@ mongoose
 const tourSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: [true, 'tour must have a name'],
+        required: [true, 'A tour must have a name'],
         unique: true
     },
     rating: {
@@ -29,8 +29,16 @@ const tourSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
-        required: [true, 'tour must have a price']
+        required: [true, 'A tour must have a price']
     }
+})
+
+const Tour = mongoose.model('Tour', tourSchema);
+
+const testTour = new Tour({
+    name: 'The Forest Hiker',
+    rating: 4.7,
+    price: 469
 })
 
 const port =  process.env.PORT || 3000;
