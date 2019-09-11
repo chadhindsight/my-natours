@@ -3,15 +3,24 @@ const Tour = require('./../models/tourModels');
 // CheckBody middleware checks for name and price properties in the body
 
 exports.getAllTours = async (req, res) => {
-    const tours = await Tour.find() ;
+    try {
+        const tours = await Tour.find();
 
-    res.status(200).json({
-        status: 'success',
-        results: tours.length,
-        data: {
-            tours
-        }
-    });
+        res.status(200).json({
+            status: 'success',
+            results: tours.length,
+            data: {
+                tours
+            }
+        });
+    }
+    catch(err) {
+        res.status(404).json({
+            statusl: 'fail',
+            message: err
+        })
+    }
+    
 }
 
 exports.getTour = (req, res) => {
