@@ -62,13 +62,21 @@ exports.createTour = async (req, res) => {
     }
 }
 
-exports.updateTour = (req, res) => {
-   res.status(200).json({
-       status: 'success booty',
-       data: {
-           tour: "<Updated tour here...>"
-       }
-   })
+exports.updateTour =  async (req, res) => {
+   try{
+       res.status(200).json({
+           status: 'success booty',
+           data: {
+               tour: "<Updated tour here...>"
+           }
+       })
+   }
+   catch(err) {
+       res.status(400).json({
+           status: 'Fail',
+           message: "Invalid data set"
+       })
+   }
 }
 
 exports.deleteTour = (req, res) => {
