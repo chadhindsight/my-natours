@@ -84,10 +84,20 @@ exports.updateTour =  async (req, res) => {
    }
 }
 
-exports.deleteTour = (req, res) => {
+exports.deleteTour = async (req, res) => {
+    try {
+       await findByIdAndDelete(req.params.id)
 
-    res.status(200).json({
-        status: 'success',
-        data: null
-    })
+        res.status(200).json({
+            status: 'success',
+            data: null
+        })
+    }
+
+    catch(err){
+        res.status(400).json({
+            status: 'Fail',
+            message: "Invalid data set"
+        })
+    }
 }
