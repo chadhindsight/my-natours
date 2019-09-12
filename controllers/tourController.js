@@ -71,7 +71,7 @@ exports.updateTour =  async (req, res) => {
        res.status(200).json({
            status: 'success booty',
            data: {
-               tour: "<Updated tour here...>"
+               tour
            }
        })
    }
