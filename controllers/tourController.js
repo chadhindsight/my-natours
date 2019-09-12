@@ -23,12 +23,25 @@ exports.getAllTours = async (req, res) => {
     
 }
 
-exports.getTour = (req, res) => {
+exports.getTour = async (req, res) => {
     // Multiply a string that has a number inside of it to make it a Number datatype;
 
-    res.status(200).json({
-        status: 'success'
-    });
+   try {
+    const tour = await Tour.findById(req.params.id)
+
+       res.status(200).json({
+           status: 'success',
+           data: {
+               tour
+           }
+       });
+   }
+   catch(err) {
+       res.status(404).json({
+           statusl: 'fail',
+           message: err
+       })
+   }
 }
 
 // Add a new tour to our data
