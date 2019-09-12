@@ -24,7 +24,6 @@ exports.getAllTours = async (req, res) => {
 }
 
 exports.getTour = (req, res) => {
-    console.log(req.params);
     // Multiply a string that has a number inside of it to make it a Number datatype;
 
     res.status(200).json({
