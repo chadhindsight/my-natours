@@ -64,12 +64,9 @@ exports.createTour = async (req, res) => {
 
 exports.updateTour =  async (req, res) => {
    try{
-       res.status(200).json({
-           status: 'success booty',
-           data: {
-               tour: "<Updated tour here...>"
-           }
-       })
+     const tour = Tour.findByIdAndUpdate(req.params.id, req.body, {
+         new: true
+     })
    }
    catch(err) {
        res.status(400).json({
