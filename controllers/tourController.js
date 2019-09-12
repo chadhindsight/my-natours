@@ -68,7 +68,14 @@ exports.updateTour =  async (req, res) => {
          new: true,
          runValidators: true
      })
+       res.status(200).json({
+           status: 'success booty',
+           data: {
+               tour: "<Updated tour here...>"
+           }
+       })
    }
+
    catch(err) {
        res.status(400).json({
            status: 'Fail',
