@@ -24,10 +24,20 @@ mongoose
     const importData = async () =>{
         try {
             await Tour.create(tours);
-
+            console.log("Data loaded succesfully")
         }
         catch(err) {
             console.log(err);
         }
     }
-    // DELETE DATA FROM COLLECTION 
+    // DELETE DATA FROM DB
+    const deleteData = async () => {
+        try {
+            await Tour.deleteMany();
+            console.log("Data successfully deleted")
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+    
