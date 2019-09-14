@@ -30,3 +30,4 @@ mongoose
             console.log(err);
         }
     }
+    // DELETE DATA FROM COLLECTION 
