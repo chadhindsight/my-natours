@@ -20,7 +20,9 @@ exports.getAllTours = async (req, res) => {
         
         // Sorting!
         if(req.query.sort) {
-            query = query.sort(req.query.sort)
+            const sortBy = req.query.sort.split(',').join(' ')
+            console.log(sortBY)
+            query = query.sort(sortBy)
         }
 
         // Execute the query
