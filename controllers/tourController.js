@@ -17,7 +17,7 @@ exports.getAllTours = async (req, res) => {
 
         let query = await Tour.find(JSON.parse(queryStr));
         
-        // Sorting!
+        // Sorting! Not working :(
         if(req.query.sort) {
             let query = query.sor(req.query.sort)
         }
