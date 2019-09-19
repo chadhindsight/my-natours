@@ -30,11 +30,14 @@ exports.getAllTours = async (req, res) => {
         if(req.query.fields) {
             const fields = req.query.fields.split(',').join(' ');
             // Projecting
-            query = query.select('-__v');
+            query = query.select(fields);
         }
         else{
-            query.query.select('')
+            query = query.select('')
         }
+
+        // Pagination
+
 
         // Execute the query
         const tours = await query;
