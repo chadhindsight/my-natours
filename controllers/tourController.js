@@ -37,7 +37,9 @@ exports.getAllTours = async (req, res) => {
         }
 
         // Pagination
-
+        // multiply by one to convert a string to number
+        const page = req.query.page * 1 || 1;
+        query = query.skip(10).limit(10);
 
         // Execute the query
         const tours = await query;
