@@ -37,8 +37,10 @@ exports.getAllTours = async (req, res) => {
         }
 
         // Pagination
-        // multiply by one to convert a string to number
+        // Multiply by one to convert a string to number
         const page = req.query.page * 1 || 1;
+        const limit = req.query.limit * 1 || 100;
+
         query = query.skip(10).limit(10);
 
         // Execute the query
@@ -96,7 +98,7 @@ exports.createTour = async (req, res) => {
     } catch(err) {
         res.status(400).json({
             status: 'Fail',
-            message: "Invalid data set"
+            message: "Invalid data set bruh"
         })
     }
 }
