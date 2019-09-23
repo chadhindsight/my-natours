@@ -40,7 +40,8 @@ exports.getAllTours = async (req, res) => {
         // Multiply by one to convert a string to number
         const page = req.query.page * 1 || 1;
         const limit = req.query.limit * 1 || 100;
-
+        const skip = (page - 1) * limit;
+        
         query = query.skip(10).limit(10);
 
         // Execute the query
