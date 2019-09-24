@@ -1,6 +1,11 @@
 const Tour = require('./../models/tourModels');
 
-// CheckBody middleware checks for name and price properties in the body
+exports.aliasTopTours = (req,res, next) => {
+    req.query.limit = '5'
+    req.query.sort = '-ratingsAverage,price'
+    req.query.fields = 'name.price,ratingsAverage,summary,difficulty'
+    next();
+}
 
 exports.getAllTours = async (req, res) => {
     try {
@@ -46,7 +51,7 @@ exports.getAllTours = async (req, res) => {
 
         if(req.query.page) {
             const numTours = await Tour.countDocuments();
-            if(skip > numTours) throw new Error('Page does not exist!')
+            if(skip >= numTours) throw new Error('Page does not exist!')
         }
 
         // Execute the query
