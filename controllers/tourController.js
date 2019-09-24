@@ -7,20 +7,28 @@ exports.aliasTopTours = (req,res, next) => {
     next();
 }
 
+class APIFeatures {
+    constructor(query, queryString) {
+        this.query = query;
+        this.queryString;
+    }
+    filter() {
+    const queryObj = { ...this.queryString};
+    const excludedFields = ['page', 'sort', 'limit', 'fields'];
+    excludedFields.forEach(el => delete queryObj[el])
+
+    // Advanced Filtering!
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`)
+    
+    this.query.find(JSON.parse(queryStr));
+    // let query = Tour.find(JSON.parse(queryStr));
+    }
+}
+
 exports.getAllTours = async (req, res) => {
     try {
-        console.log(req.query)
-
-        // First we build the query & filter
-        const queryObj = {...req.query};
-        const excludedFields = ['page', 'sort', 'limit', 'fields'];
-        excludedFields.forEach(el => delete queryObj[el])
-        
-        // Advanced Filtering!
-        let queryStr = JSON.stringify(queryObj);
-        queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match =>`$${match}`)
-
-        let query = Tour.find(JSON.parse(queryStr));
+        console.log(req.query)       
 
         // Sorting!
         if(req.query.sort) {
@@ -55,6 +63,7 @@ exports.getAllTours = async (req, res) => {
         }
 
         // Execute the query
+        const features = new APIFeatures(Tour.find(), req.query).filter();
         const tours = await query;
 
         // Send Response
