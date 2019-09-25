@@ -1,9 +1,9 @@
 const Tour = require('./../models/tourModels');
 
-exports.aliasTopTours = (req,res, next) => {
+exports.aliasTopTours = (req, res, next) => {
     req.query.limit = '5'
     req.query.sort = '-ratingsAverage,price'
-    req.query.fields = 'name.price,ratingsAverage,summary,difficulty'
+    req.query.fields = 'name,price,ratingsAverage,summary,difficulty'
     next();
 }
 
@@ -23,7 +23,33 @@ class APIFeatures {
     
     this.query.find(JSON.parse(queryStr));
     // let query = Tour.find(JSON.parse(queryStr));
+
+    return this;
     }
+    sort() {
+        if (this.queryString.sort) {
+            const sortBy = req.query.sort.split(',').join(' ');
+            this.query = this.query.sort(sortBy)
+        }
+        else {
+            this.query.sort('-createdAt')
+        }
+        return this;
+    }
+
+    limitFields() {
+        // Field Limiting
+        if (this.queryString.fields) {
+            const fields = this.queryString.fields.split(',').join(' ');
+            // Projecting
+            this.query = this.query.select(fields);
+        }
+        else {
+            this.query = this.query.select('')
+        }
+        return this;
+    }
+
 }
 
 exports.getAllTours = async (req, res) => {
@@ -31,23 +57,13 @@ exports.getAllTours = async (req, res) => {
         console.log(req.query)       
 
         // Sorting!
-        if(req.query.sort) {
-            const sortBy = req.query.sort.split(',').join(' ');
-            query = query.sort(sortBy)
-        }
-        else {
-            query.sort('-createdAt')
-        }
-        
-        // Field Limiting
-        if(req.query.fields) {
-            const fields = req.query.fields.split(',').join(' ');
-            // Projecting
-            query = query.select(fields);
-        }
-        else{
-            query = query.select('')
-        }
+        // if(req.query.sort) {
+        //     const sortBy = req.query.sort.split(',').join(' ');
+        //     query = query.sort(sortBy)
+        // }
+        // else {
+        //     query.sort('-createdAt')
+        // }
 
         // Pagination
         // Multiply by one to convert a string to number
