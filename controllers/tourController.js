@@ -12,7 +12,7 @@ exports.getAllTours = async (req, res) => {
     try {
         console.log(req.query)       
 
-        // Execute the query. each one returns this object so chaining each method to said object can occur.
+        // Execute the query. Each one returns this object so chaining each method to said object can occur.
         const features = new APIFeatures(Tour.find(), req.query)
         .filter()
         .sort()
@@ -39,7 +39,6 @@ exports.getAllTours = async (req, res) => {
 }
 
 exports.getTour = async (req, res) => {
-    // Multiply a string that has a number inside of it to make it a Number datatype;
 
    try {
     const tour = await Tour.findById(req.params.id)
