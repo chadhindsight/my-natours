@@ -124,7 +124,7 @@ exports.getTourStats = async (req, res) =>{
             },
             {
                 $group: {
-                    _id: null,
+                    _id: { $toUpper: '$difficulty'},
                     numTours: {$sum: 1},
                     numRatings: { $sum: '$ratingsQuantity' },
                     avgRating: {$avg: '$ratingsAverage'},
@@ -133,6 +133,9 @@ exports.getTourStats = async (req, res) =>{
                     maxPrice: { $max: '$price' }
 
                 }
+            },
+            {
+                $sort: { avgPrice: 1}
             }
         ])
         res.status(200).json({
@@ -141,6 +144,40 @@ exports.getTourStats = async (req, res) =>{
         })
     }
     catch(err) {
+        res.status(400).json({
+            status: 'Fail',
+            message: "Invalid data set"
+        })
+    }
+}
+
+exports.getMonthlyPlan = async (req, res) => {
+    try{
+        // Multiply by one to make string into a number
+        const year = req.params.year * 1;
+        const plan = await Tour.aggregate([
+            {
+                $unwind: '$startDates'
+            },
+            //Select certain documents for a given year
+            {
+                $match: {
+                    startDates: {
+                        $gte: new Date(`${year}-01-01`),
+                        $lte: new Date(`${year}-12-31`)
+                    }
+                }
+            }
+        ]);
+
+        res.status(200).json({
+            status: 'success',
+            data: {
+                plan
+            }
+        });
+    }
+    catch (err) {
         res.status(400).json({
             status: 'Fail',
             message: "Invalid data set"
