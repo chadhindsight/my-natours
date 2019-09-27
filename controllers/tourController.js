@@ -167,6 +167,12 @@ exports.getMonthlyPlan = async (req, res) => {
                         $lte: new Date(`${year}-12-31`)
                     }
                 }
+            },
+            {
+                $group: {
+                    _id: {$month: '$startDates'},
+                    numTourStarts: {$sum: 1}
+                }
             }
         ]);
 
