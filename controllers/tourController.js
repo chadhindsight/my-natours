@@ -150,7 +150,7 @@ exports.getTourStats = async (req, res) =>{
         })
     }
 }
-
+//The logic below is all mongodb stages stuff. Review if needed!
 exports.getMonthlyPlan = async (req, res) => {
     try{
         // Multiply by one to make string into a number
@@ -171,8 +171,18 @@ exports.getMonthlyPlan = async (req, res) => {
             {
                 $group: {
                     _id: {$month: '$startDates'},
-                    numTourStarts: {$sum: 1}
+                    numTourStarts: {$sum: 1},
+                    tours: { $push: '$name' }
                 }
+            },
+            {
+                $addFields: {month: '$_id'}
+            },
+            {
+                $project: {_id: 0}
+            },
+            {
+                $sort: {numTourStarts: -1}
             }
         ]);
 
