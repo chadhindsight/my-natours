@@ -179,6 +179,7 @@ exports.getMonthlyPlan = async (req, res) => {
                 $addFields: {month: '$_id'}
             },
             {
+                //Making id field zero removes it
                 $project: {_id: 0}
             },
             {
