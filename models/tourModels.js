@@ -82,10 +82,15 @@ tourSchema.pre('save', function(next){
     next();
 })
 // Query Middleware for secret tours
-tourSchema.pre('find', function () {
-    this.find({secretTour: {$ne: true} });
-    next();
-});
+// tourSchema.pre(/^find/, function () {
+//     this.find({secretTour: {$ne: true} });
+//     next();
+// });
+
+// Aggregation Middleware
+tourSchema.pre('aggregate', function (next) {
+    
+})
 
 const Tour = mongoose.model('Tour', tourSchema);
 
