@@ -8,7 +8,9 @@ const tourSchema = new mongoose.Schema({
         type: String,
         required: [true, 'A tour must have a name'],
         unique: true,
-        trim: true
+        trim: true,
+        maxlength: [40, 'As tour name must have less or equal than 40 chars'],
+        minLength: [10, 'A tour name must have more than or equal to 10 chars!']
     },
     slug: String,
     duration: {
@@ -81,7 +83,7 @@ tourSchema.pre('save', function(next){
 
     next();
 })
-// Query Middleware for secret tours
+// Query Middleware for the secret tours
 tourSchema.pre(/^find/, function (next) {
     this.find({ secretTour: { $ne: true } });
 
@@ -93,7 +95,7 @@ tourSchema.post(/^find/, function (docs, next) {
     // console.log(`Query took ${Date.now() - this.start} milliseconds!`);
     next();
 });
-// Aggregation Middleware!
+// Aggregation Middleware
 tourSchema.pre('aggregate', function (next) {
     this.pipeline().unshift({$match: { secretTour: {$ne: true} }});
     console.log(this.pipeline());
