@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const slugify = require('slugify');
+// check conditions for schema properties
 const validator = require('validator');
 
 
