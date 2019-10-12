@@ -37,4 +37,9 @@ app.all('*', (req, res, next) =>{
     })
 })
 
+app.use((err, req, res, next) =>{
+    //Set the error equal to whatever error is received!
+    err.statusCode = err.statusCode || 500;
+    err.status = err.status
+})
 module.exports = app;
