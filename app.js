@@ -31,15 +31,25 @@ app.use('/api/v1/users', userRouter);
 
 // Runs for all uncatched http verbs
 app.all('*', (req, res, next) =>{
-    res.status(404).json({
-        status: 'fail',
-        message: `Can't find ${req.originalUrl} on server`
-    })
-})
+    // res.status(404).json({
+    //     status: 'fail',
+    //     message: `Can't find ${req.originalUrl} on server`
+    // })
+    const err = new Error(`Can't find ${req.originalUrl} on server`)
+    err.status = 'fail'
+    err.statusCode = 404;
+
+    next(err);
+});
 
 app.use((err, req, res, next) =>{
     //Set the error equal to whatever error is received!
     err.statusCode = err.statusCode || 500;
-    err.status = err.status
+    err.status = err.status || 'error'
+
+    res.status(err.statusCode).json({
+        status: err.status,
+        message: err.message
+    });
 })
 module.exports = app;
