@@ -1,9 +1,19 @@
 const sendErrorDev = (err, res) =>{
-    res.status(err.statusCode).json({
-        status: err.status,
-        message: err.message,
-        stack: error.stack
-    })
+//    OPerational Error message for client
+    if(err.isOperational) {
+       res.status(err.statusCode).json({
+           status: err.status,
+           message: err.message,
+           stack: error.stack
+       }) 
+   }
+//    Error message not meant for the user
+   else {
+       res.status(500).json({
+           status: 'error',
+           message: 'Something went wrong!'
+       })
+   }
 }
 
 const sendErrorProd = ( err, res) =>{
