@@ -1,26 +1,29 @@
-const sendErrorDev = (err, res) =>{
-//    OPerational Error message for client
-    if(err.isOperational) {
-       res.status(err.statusCode).json({
-           status: err.status,
-           message: err.message,
-           stack: error.stack
-       }) 
-   }
-//    Error message not meant for the user
-   else {
-       res.status(500).json({
-           status: 'error',
-           message: 'Something went wrong!'
-       })
-   }
+const sendErrorDev = (err, res) => {
+    res.status(err.statusCode).json({
+        status: err.status,
+        error: err,
+        message: err.message,
+        stack: err.stack
+    });
 }
 
 const sendErrorProd = ( err, res) =>{
-    res.status(err.statusCode).json({
-        status: err.status,
-        message: err.message
-    })
+    // OPerational Error message for client
+    if (err.isOperational) {
+        res.status(err.statusCode).json({
+            status: err.status,
+            message: err.message
+        })
+    }
+    // Error message not meant for the user
+    else {
+        console.log('Error', err);
+
+        res.status(500).json({
+            status: 'error',
+            message: 'Something went wrong!'
+        })
+    }
 }
 
 module.exports = (err, req, res, next) => {
@@ -32,7 +35,11 @@ module.exports = (err, req, res, next) => {
       sendErrorDev(err)
     } 
     else if (process.env.NODE_ENV === 'production') {
-     sendErrorProd(err)   
+        let error  = {...err};
+
+        if(error.name === 'CastError') {error = handleCastErrorDB(error)}
+     
+        sendErrorProd(err, res)   
     }
    
-}
+};
