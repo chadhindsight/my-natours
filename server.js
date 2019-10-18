@@ -31,5 +31,9 @@ process.on('unhandledRejection', err =>{
 })
 
 process.on('uncaughtException', err =>{
-
+    console.log('UNHANDLED Exception! Shutting down...')
+    console.log(err.name, err.message);
+    ServiceWorkerRegistration.close(() => {
+        process.exit(1);
+    })
 })
