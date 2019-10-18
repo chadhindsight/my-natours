@@ -17,21 +17,20 @@ mongoose
     })
     .then(() => console.log('DB connection successful!'));
 
-
-
-// const testTour = new Tour({
-//     name: 'The Park Camper',
-//     rating: 4.7,
-//     price: 500
-// })
-
-// testTour.save().then(doc =>{
-//     console.log(doc);
-// }).catch(err =>{
-//     console.log('ERROR', err)
-// });
-
 const port =  process.env.PORT || 3000;
 app.listen(port, () => {
-    console.log(`App  is running on port ${port} ${process.env.DATABASE_PW}!`);
+    console.log(`App  is running on port ${port}!`);
 });
+
+process.on('unhandledRejection', err =>{
+    console.log(err.name, err.message);
+
+    console.log('UNHANDLED REJECTION! Shutting down...')
+    ServiceWorkerRegistration.close(()=>{
+        process.exit(1);
+    })
+})
+
+process.on('uncaughtException', err =>{
+
+})
