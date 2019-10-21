@@ -24,10 +24,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'confirm your password'],
         validate: {
-            // only works on save
+            //This only works on save
             validator: function (el) {
                 return el === this.password;
-            }
+            },
+            message: 'Both password fields must match!'
         }
     }
 });
