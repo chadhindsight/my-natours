@@ -36,7 +36,10 @@ const userSchema = new mongoose.Schema({
     userSchema.pre('save', async function(next){
         if(this.isModified('password')) {return next}
 
-        this.password = await bcrypt.hash(this.password, 12);
+        this.pw = await bcrypt.hash(this.pw, 12);
+
+        this.pwconfirm = undefined;
+        next();
     })
 
 const User = mongoose.model("User", userSchema);
