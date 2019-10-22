@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -32,6 +33,11 @@ const userSchema = new mongoose.Schema({
         }
     }
 });
+    userSchema.pre('save', function(next){
+        if(this.isModified('password')) {return next}
+
+
+    })
 
 const User = mongoose.model("User", userSchema);
 //Export user model so it can be used in other files
