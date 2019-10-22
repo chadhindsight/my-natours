@@ -27,17 +27,18 @@ const userSchema = new mongoose.Schema({
         validate: {
             //This only works on save
             validator: function (el) {
-                return el === this.password;
+                return el === this.pw;
             },
             message: 'Both password fields must match!'
         }
     }
 });
     userSchema.pre('save', async function(next){
+        // Only runs when password is modified
         if(this.isModified('password')) {return next}
-
+        // Hash password with cost of 1w
         this.pw = await bcrypt.hash(this.pw, 12);
-
+        // Remove pw confirm field from DB
         this.pwconfirm = undefined;
         next();
     })
