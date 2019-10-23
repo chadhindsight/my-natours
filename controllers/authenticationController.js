@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken')
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 
@@ -9,6 +10,9 @@ exports.signup = catchAsync(async(req, res, next) =>{
         pw: req.body.pw,
         pwconfirm: req.body.pwconfirm
     });
+
+    const token = jwt.sign({id: newUser._id})
+
     res.status(200).json({
         status: 'success',
         data: {
