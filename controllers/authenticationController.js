@@ -11,7 +11,7 @@ exports.signup = catchAsync(async(req, res, next) =>{
         pwconfirm: req.body.pwconfirm
     });
 
-    const token = jwt.sign({id: newUser._id})
+    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECTRET)
 
     res.status(200).json({
         status: 'success',
