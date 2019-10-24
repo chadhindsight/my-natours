@@ -25,7 +25,7 @@ exports.signup = catchAsync(async(req, res, next) =>{
     });
 });
 
-exports.login = (req,res,next) => {
+exports.login = catchAsync(async(req,res,next) => {
     const { email, pw } = req.body;
 
     // Check if email and password exist
@@ -33,11 +33,11 @@ exports.login = (req,res,next) => {
         return next(new AppError("Please provide email & password", 400));
     }
     // Check if user exists & password is right
-    const user = UserfindOne({email});
+    const user = await User.findOne({email}).select('+pw');
 
     const token = '';
     res.status(200).json({
         status: 'success',
         token
     });
-}
+})
