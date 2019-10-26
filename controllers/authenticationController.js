@@ -35,7 +35,7 @@ exports.login = catchAsync(async(req,res,next) => {
     if(!email || !pw) {
         return next(new AppError("Please provide email & password", 400));
     }
-    // Check if user exists & the password is right
+    // Check if user exists & the password is right!
     const user = await User.findOne({email}).select('+pw');
 
     if (!user || ! await user.correctPassword(pw, user.pw)) {
