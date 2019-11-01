@@ -1,3 +1,4 @@
+const util = require('util');
 const jwt = require('jsonwebtoken')
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
@@ -49,6 +50,23 @@ exports.login = catchAsync(async(req,res,next) => {
     });
 });
 
-exports.protect = catchAsync((req, res, next) =>{
+exports.protect = catchAsync(async(req, res, next) =>{
+    // Get the token and check if it exists
+    let token; 
+    
+    if(req.headers.authorization && req.headers.authorization.startsWith('bearer')) {
+         token = req.headers.authorization.split(' ')[2];
+    } 
+    console.log(token)
+
+    if(!token) {
+        return next(AppError('You are not logged in. Please log in to get access', 401));
+    }
+    // Validate the token with verify function
+    jwt.verify(token, process.env.JWT_SECTRET)
+
+    //Check if the user still exists
+    
+    // Check if user changed password after getting the token
     next();
 })
