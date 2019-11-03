@@ -54,8 +54,8 @@ exports.protect = catchAsync(async(req, res, next) =>{
     // Get the token and check if it exists
     let token; 
     
-    if(req.headers.authorization && req.headers.authorization.startsWith('bearer')) {
-         token = req.headers.authorization.split(' ')[2];
+    if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+         token = req.headers.authorization.split(' ')[1];
     } 
 
     if(!token) {
