@@ -49,7 +49,7 @@ const userSchema = new mongoose.Schema({
  }
  userSchema.methods.changedPWAfter = function(JWTTimeStamp) {
      if (this.pwChangedAt) {
-         const changeTimestamp = this.pwChangedAt.getTime();
+         const changeTimestamp = parseInt(this.pwChangedAt.getTime() /1000, 10);
          console.log(this.pwChangedAt, JWTTimeStamp);
      }
 
