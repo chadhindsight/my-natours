@@ -65,12 +65,16 @@ exports.protect = catchAsync(async(req, res, next) =>{
     const decoded = promisify(jwt.verify)(token, process.env.JWT_SECTRET);
     console.log(decoded)
 
-    //Check if the user still exists
+    //Check if the user still exists. This is trash
     const freshUser = await User.findById(decoded.id);
     if(!freshUser) {
         return next(new AppError('User no longer exists!', 401))
     }
     // Check if user has changed password after getting the token
-    freshUser.changedPWAfter(decoded.iat);
+    if(freshUser.changedPWAfter(decoded.iat)){
+        return next(
+            new AppError('User recently changed password! Please log in again.', 401)
+        );
+    };
     next();
 })
