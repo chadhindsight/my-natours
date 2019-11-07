@@ -19,7 +19,8 @@ const userSchema = new mongoose.Schema({
     pw: {
         type:String,
         required: [true, 'provide a password'],
-        minlength: 8
+        minlength: 8,
+        select: false
     },
     pwconfirm: {
         type: String,
@@ -31,7 +32,8 @@ const userSchema = new mongoose.Schema({
             },
             message: 'Both password fields must match!'
         }
-    }
+    },
+    pwChangedAt: Date
 });
     userSchema.pre('save', async function(next){
         // Only runs when password is modified
@@ -42,7 +44,17 @@ const userSchema = new mongoose.Schema({
         this.pwconfirm = undefined;
         next();
     })
+ userSchema.methods.correctPassword = async function(candidatePassword, userPassword) {
+     return await bcrypt.compare(candidatePassword, userPassword);
+ }
+ userSchema.methods.changedPWAfter = function(JWTTimeStamp) {
+     if (this.pwChangedAt) {
+         const changeTimestamp = this.pwChangedAt.getTime();
+         console.log(this.pwChangedAt, JWTTimeStamp);
+     }
 
+    return false;
+ }
 const User = mongoose.model("User", userSchema);
 //Export user model so it can be used in other files
 module.exports = User;
