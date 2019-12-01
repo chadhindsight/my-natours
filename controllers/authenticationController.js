@@ -90,4 +90,15 @@ exports.protect = catchAsync(async (req, res, next) => {
     // GRANT ACCESS TO PROTECTED ROUTE!
     req.user = currentUser;
     next();
+
+    // Verify if certain users have the right to interact with specified resource
+    exports.restrictTo = (...roles) => {
+        return (req, res,next)=>{
+            // roles array was created with spread
+            if(!roles.includes(req.user.role)){
+                return next(new AppError("You do not have permission to do this action", 403));
+            }
+            next();
+        }
+    }
 });
